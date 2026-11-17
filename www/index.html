@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parental Kontrol Pro - Unlimited</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        .dashboard {
+            background: white;
+            width: 100%;
+            max-width: 400px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .header h1 { margin: 0; font-size: 1.2rem; }
+        .status { font-size: 0.8rem; opacity: 0.9; margin-top: 5px; }
+        .content { padding: 20px; }
+        .control-group { margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 15px; }
+        .control-group:last-child { border-bottom: none; }
+        .label { font-weight: bold; margin-bottom: 10px; display: block; color: #333; }
+        .btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1rem;
+            transition: background 0.3s;
+        }
+        .btn:hover { background-color: #0056b3; }
+        .btn.active { background-color: #28a745; }
+        .btn.stop { background-color: #dc3545; }
+        .btn.stop:hover { background-color: #a71d2a; }
+        .info-box {
+            background: #e9ecef;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            color: #495057;
+        }
+        .log-area {
+            height: 100px;
+            overflow-y: auto;
+            background: #212529;
+            color: #00ff00;
+            font-family: monospace;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="dashboard">
+    <div class="header">
+        <h1>Remote Parental Control</h1>
+        <div class="status">Status: Terhubung (No Limit)</div>
+    </div>
+
+    <div class="content">
+        <div class="control-group">
+            <span class="label">Status Perangkat Anak</span>
+            <div class="info-box">
+                Perangkat: Samsung Galaxy A54<br>
+                Lokasi: Jakarta Selatan (GPS Live)<br>
+                Baterai: 84%
+            </div>
+        </div>
+
+        <div class="control-group">
+            <span class="label">Kontrol Aplikasi</span>
+            <button class="btn" onclick="toggleApp('Game', this)">Blokir Game</button>
+            <button class="btn" onclick="toggleApp('Sosmed', this)">Blokir Sosmed</button>
+            <button class="btn" onclick="toggleApp('Youtube', this)">Blokir Youtube</button>
+        </div>
+
+        <div class="control-group">
+            <span class="label">Tindakan Jarak Jauh</span>
+            <button class="btn stop" onclick="forceLock()">Kunci Layar HP</button>
+            <button class="btn" onclick="wipeData()">Hapus Data (Factory Reset)</button>
+        </div>
+
+        <div class="control-group">
+            <span class="label">Log Aktivitas Server</span>
+            <div class="log-area" id="logBox">
+                > Sistem siap.<br>
+                > Koneksi terdeteksi.<br>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function toggleApp(appName, btn) {
+        if (btn.classList.contains('active')) {
+            btn.classList.remove('active');
+            btn.innerText = `Blokir ${appName}`;
+            btn.style.backgroundColor = '#007bff';
+            log(`> ${appName} dibebaskan.`);
+        } else {
+            btn.classList.add('active');
+            btn.innerText = `Aktif: ${appName} DIBLOKIR`;
+            btn.style.backgroundColor = '#dc3545';
+            log(`> ${appName} diblokir secara jarak jauh.`);
+        }
+    }
+
+    function forceLock() {
+        log("> Perintah terkirim: Kunci Layar Penuh.");
+        log("> Anak tidak bisa membuka HP sampai dilepas.");
+        alert("Layar HP anak telah dikunci dari jarak jauh.");
+    }
+
+    function wipeData() {
+        log("> Perintah terkirim: Factory Reset.");
+        log("> Semua data anak sedang dihapus...");
+        alert("Proses penghapusan data (Factory Reset) dimulai.");
+    }
+
+    function log(msg) {
+        const logBox = document.getElementById('logBox');
+        const time = new Date().toLocaleTimeString();
+        logBox.innerHTML += `<div>[${time}] ${msg}</div>`;
+        logBox.scrollTop = logBox.scrollHeight;
+    }
+
+    // Simulasi koneksi real-time
+    setInterval(() => {
+        if(Math.random() > 0.7) {
+            log("> Ping server: OK (0ms)");
+        }
+    }, 3000);
+</script>
+
+</body>
+</html>
